@@ -71,6 +71,7 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
+  // Pull dashboard, portfolio, and raw assets together to drive all widgets
   const fetchData = async () => {
     setLoading(true)
     setError(null)
@@ -198,6 +199,7 @@ const Dashboard = () => {
         </div>
       ) : (
         <>
+          {/* Portfolio snapshot and trend */}
           <div className="grid gap-6 lg:grid-cols-3">
             <div className="lg:col-span-1">
               <div className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-2xl shadow-sm p-6 h-full">

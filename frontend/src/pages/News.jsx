@@ -11,6 +11,7 @@ const News = () => {
   const [category, setCategory] = useState('all')
   const [search, setSearch] = useState('')
 
+  // Fetch stories with optional category and search filters
   const fetchNews = async () => {
     setLoading(true)
     setError(null)
@@ -95,6 +96,7 @@ const News = () => {
           ))}
         </div>
       ) : (
+        /* Articles ordered by timestamp */
         <div className="grid gap-4">
           {visibleNews.map((item) => (
             <article

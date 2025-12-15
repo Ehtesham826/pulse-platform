@@ -45,6 +45,7 @@ const SortSelect = ({ value, onChange }) => (
   </select>
 )
 
+  // Simple detail modal with a tiny price chart
   const AssetModal = ({ asset, onClose }) => {
     if (!asset) return null
     const history = asset.priceHistory || []
@@ -208,6 +209,7 @@ const Assets = () => {
             <span className="text-sm font-semibold">Unified watch</span>
           </div>
         </div>
+        {/* Controls: filter pills, search, and sort */}
         <div className="flex flex-wrap items-center gap-3">
           {['all', 'stock', 'crypto'].map((option) => {
             const isActive = filter === option
@@ -261,6 +263,7 @@ const Assets = () => {
         </div>
       ) : (
         <>
+          {/* Desktop table view */}
           <div className="hidden md:block bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-3xl shadow-sm overflow-hidden">
             <table className="min-w-full divide-y divide-gray-100 dark:divide-gray-800">
               <thead className="bg-gray-50 dark:bg-gray-800/70">
@@ -303,6 +306,7 @@ const Assets = () => {
             </table>
           </div>
 
+          {/* Mobile cards */}
           <div className="grid gap-3 md:hidden">
             {filteredAssets.map((asset) => (
               <div
