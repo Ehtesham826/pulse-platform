@@ -21,6 +21,7 @@ const Alerts = () => {
   const [error, setError] = useState(null)
   const [severity, setSeverity] = useState('all')
 
+  // Load alerts with optional severity filter
   const fetchAlerts = async () => {
     setLoading(true)
     setError(null)
@@ -99,6 +100,7 @@ const Alerts = () => {
           ))}
         </div>
       ) : (
+        /* Render grouped stacks in severity order */
         <div className="grid gap-4">
           {levels.map((level) => {
             const levelAlerts = grouped[level] || []

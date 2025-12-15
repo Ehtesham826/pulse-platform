@@ -26,6 +26,7 @@ const Portfolio = () => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
+  // One-shot load for portfolio and supporting data
   const fetchPortfolio = async () => {
     setLoading(true)
     setError(null)
@@ -96,6 +97,7 @@ const Portfolio = () => {
         </div>
       ) : (
         <>
+          {/* Top area: value trend and allocation */}
           <div className="grid gap-6 lg:grid-cols-3">
             <div className="lg:col-span-2 bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-2xl shadow-sm p-6">
               <div className="flex items-center justify-between mb-4">
@@ -177,8 +179,9 @@ const Portfolio = () => {
                 )}
               </div>
             </div>
-          </div>
+            </div>
 
+          {/* Middle: best/worst callouts */}
           <div className="grid gap-6 md:grid-cols-2">
             <div className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-2xl shadow-sm p-5">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-3">Best performer</h3>
@@ -204,6 +207,7 @@ const Portfolio = () => {
             </div>
           </div>
 
+          {/* Bottom: holdings table and watchlist */}
           <div className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-2xl shadow-sm p-6">
             <div className="flex items-center justify-between mb-4">
               <div>
