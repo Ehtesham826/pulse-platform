@@ -14,11 +14,13 @@
 
 body {
   margin: 0;
+  /* Manrope gives a more polished dashboard feel */
   font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* Soft gradients keep the UI from feeling flat */
   background: radial-gradient(circle at 20% 20%, rgba(99, 102, 241, 0.1), transparent 25%),
               radial-gradient(circle at 80% 0%, rgba(139, 92, 246, 0.12), transparent 20%),
               radial-gradient(circle at 50% 80%, rgba(14, 165, 233, 0.12), transparent 20%),
@@ -26,6 +28,7 @@ body {
 }
 
 .dark body {
+  /* Subtle texture so dark mode isn’t flat */
   background: radial-gradient(circle at 20% 20%, rgba(99, 102, 241, 0.12), transparent 25%),
               radial-gradient(circle at 80% 0%, rgba(139, 92, 246, 0.12), transparent 20%),
               radial-gradient(circle at 50% 80%, rgba(14, 165, 233, 0.12), transparent 20%),

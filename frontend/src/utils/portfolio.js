@@ -3,6 +3,7 @@ export const computePortfolioTrend = (portfolio, assets = []) => {
   const assetMap = new Map()
   assets.forEach((asset) => assetMap.set(asset.symbol, asset))
 
+  // Grab a sample asset to know how many history points exist
   const sampleAsset = assetMap.get(portfolio.assets[0]?.assetId)
   const length = sampleAsset?.priceHistory?.length || 0
   if (!length) return []
@@ -11,6 +12,7 @@ export const computePortfolioTrend = (portfolio, assets = []) => {
   for (let i = 0; i < length; i++) {
     let totalValue = 0
     let timestamp = null
+    // Sum value across all holdings for the same index in history
     portfolio.assets.forEach((holding) => {
       const asset = assetMap.get(holding.assetId)
       if (!asset?.priceHistory?.[i]) return
@@ -19,6 +21,7 @@ export const computePortfolioTrend = (portfolio, assets = []) => {
       totalValue += point.price * holding.quantity
     })
     if (timestamp) {
+      // Normalize to two decimals so chart tooltips look clean
       trend.push({ timestamp, value: Number(totalValue.toFixed(2)) })
     }
   }

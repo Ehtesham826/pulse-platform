@@ -30,6 +30,7 @@ const Portfolio = () => {
     setLoading(true)
     setError(null)
     try {
+      // Pull raw portfolio, derived performance, and assets in parallel
       const [portfolioRes, perfRes, assetsRes] = await Promise.all([
         getPortfolio(),
         getPortfolioPerformance(),
@@ -39,6 +40,7 @@ const Portfolio = () => {
       setPortfolio(portfolioData)
       setPerformance(perfRes?.data?.data || perfRes?.data)
       setAssets(assetsRes?.data?.data || assetsRes?.data || [])
+      // Turn price history + holdings into a chartable curve
       const trendData = computePortfolioTrend(portfolioData, assetsRes?.data?.data || assetsRes?.data || [])
       setTrend(trendData)
     } catch (err) {
@@ -53,6 +55,7 @@ const Portfolio = () => {
   }, [])
 
   const allocation = useMemo(() => {
+    // Map allocation data to chart-friendly shape
     return performance?.assetAllocation?.map((item, idx) => ({
       name: item.assetId,
       value: Number(item.percentage.toFixed(2)),
@@ -118,6 +121,7 @@ const Portfolio = () => {
                           <stop offset="100%" stopColor="#22c55e" stopOpacity={0.05} />
                         </linearGradient>
                       </defs>
+                      {/* Portfolio value over time reconstructed from holdings */}
                       <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
                       <XAxis dataKey="timestamp" tickFormatter={(v) => new Date(v).toLocaleDateString('en', { month: 'short', day: 'numeric' })} stroke="#9ca3af" />
                       <YAxis tickFormatter={(v) => `$${Math.round(v / 1000)}k`} stroke="#9ca3af" />
@@ -148,6 +152,7 @@ const Portfolio = () => {
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
                       <Pie
+                        /* Pie slice colors come from the palette above */
                         data={allocation}
                         dataKey="value"
                         nameKey="name"
@@ -177,6 +182,7 @@ const Portfolio = () => {
           <div className="grid gap-6 md:grid-cols-2">
             <div className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-2xl shadow-sm p-5">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-3">Best performer</h3>
+              {/* Quick callout for top mover */}
               <div className="p-4 rounded-xl bg-emerald-50 dark:bg-emerald-900/40 border border-emerald-100 dark:border-emerald-800">
                 <div className="flex items-center justify-between">
                   <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">{performance?.bestPerformer?.assetId}</p>
@@ -209,6 +215,7 @@ const Portfolio = () => {
               </span>
             </div>
             <div className="overflow-x-auto">
+              {/* Wide table lists each position with current value */}
               <table className="min-w-full divide-y divide-gray-100 dark:divide-gray-800">
                 <thead className="bg-gray-50 dark:bg-gray-800/70">
                   <tr>

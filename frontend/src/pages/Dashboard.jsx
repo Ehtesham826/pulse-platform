@@ -92,16 +92,19 @@ const Dashboard = () => {
 
   useEffect(() => {
     fetchData()
+    // Keep data fresh with a lightweight poll
     const interval = setInterval(fetchData, 30000)
     return () => clearInterval(interval)
   }, [])
 
   useEffect(() => {
     if (!portfolio) return
+    // Build a synthetic portfolio chart from asset histories
     const trend = computePortfolioTrend(portfolio, assets)
     setPortfolioTrend(trend)
   }, [portfolio, assets])
 
+  // Trim lists to the bite-size views the dashboard needs
   const topGainers = useMemo(
     () => (dashboardData?.topGainers || []).slice(0, 3),
     [dashboardData]
@@ -126,6 +129,7 @@ const Dashboard = () => {
 
   return (
     <div className="space-y-8">
+      {/* Hero strip with quick highlights */}
       <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-pulse-dark via-pulse-primary to-pulse-secondary text-white shadow-xl">
         <div className="absolute inset-0 opacity-30 bg-[radial-gradient(circle_at_20%_20%,white,transparent_30%)]" />
         <div className="relative grid gap-8 md:grid-cols-2 p-8">
@@ -186,6 +190,7 @@ const Dashboard = () => {
 
       {loading ? (
         <div className="grid gap-6 md:grid-cols-2">
+          {/* Skeletons keep layout stable during fetch */}
           <SkeletonCard lines={5} />
           <SkeletonCard lines={5} />
           <SkeletonCard lines={4} />

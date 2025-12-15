@@ -28,10 +28,12 @@ const News = () => {
   }
 
   useEffect(() => {
+    // Refetch whenever filters change
     fetchNews()
   }, [category, search])
 
   const visibleNews = useMemo(() => {
+    // Always show most recent first
     const list = [...items].sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
     return list
   }, [items])
@@ -51,6 +53,7 @@ const News = () => {
               <button
                 key={cat}
                 onClick={() => setCategory(cat)}
+                // Category chips toggle API filter
                 className={`px-3 py-1.5 rounded-full text-sm font-semibold border transition-colors ${
                   active
                     ? 'bg-pulse-primary text-white border-pulse-primary'

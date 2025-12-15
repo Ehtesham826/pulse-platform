@@ -1,15 +1,14 @@
 import { Link, useLocation } from 'react-router-dom'
 import { useState } from 'react'
 import MetaMaskButton from './MetaMaskButton'
-import { useTheme } from '../context/ThemeContext'
 
 const Layout = ({ children }) => {
   const location = useLocation()
   const [sidebarOpen, setSidebarOpen] = useState(() => {
     if (typeof window === 'undefined') return true
+    // Default open on desktop, closed on mobile
     return window.innerWidth >= 768
   })
-  const { theme, toggleTheme } = useTheme()
   const isMobile = typeof window !== 'undefined' ? window.innerWidth < 768 : false
 
   const navigation = [
@@ -42,13 +41,6 @@ const Layout = ({ children }) => {
               </div>
             </div>
             <div className="flex items-center gap-3">
-              <button
-                onClick={toggleTheme}
-                className="px-3 py-2 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-sm font-semibold flex items-center gap-2 hover:border-pulse-primary/50 transition-colors"
-                title="Toggle theme"
-              >
-                {theme === 'dark' ? '🌙 Dark' : '☀️ Light'}
-              </button>
               <MetaMaskButton />
             </div>
           </div>
@@ -58,6 +50,7 @@ const Layout = ({ children }) => {
       <div className="flex">
         {/* Sidebar */}
         <aside
+          // Desktop: sticky, Mobile: slide-in drawer
           className={`${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} fixed md:sticky top-16 md:top-16 left-0 h-[calc(100vh-4rem)] md:max-h-[calc(100vh-4rem)] w-64 bg-white/90 dark:bg-gray-900/80 backdrop-blur border-r border-gray-200 dark:border-gray-800 transition-transform duration-300 z-30 md:translate-x-0 md:self-start md:overflow-y-auto`}
         >
           <nav className="p-4 overflow-y-auto h-full">
@@ -66,6 +59,7 @@ const Layout = ({ children }) => {
                 const isActive = location.pathname === item.path
                 return (
                   <li key={item.path}>
+                    {/* Simple active state match by exact path */}
                     <Link
                       to={item.path}
                       className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
@@ -86,6 +80,7 @@ const Layout = ({ children }) => {
         </aside>
 
         {sidebarOpen && isMobile && (
+          // Backdrop for the mobile drawer
           <div
             className="fixed inset-0 bg-black/40 z-20 md:hidden"
             onClick={() => setSidebarOpen(false)}

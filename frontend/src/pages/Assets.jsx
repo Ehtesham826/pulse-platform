@@ -45,11 +45,11 @@ const SortSelect = ({ value, onChange }) => (
   </select>
 )
 
-const AssetModal = ({ asset, onClose }) => {
-  if (!asset) return null
-  const history = asset.priceHistory || []
-  return (
-    <div className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4">
+  const AssetModal = ({ asset, onClose }) => {
+    if (!asset) return null
+    const history = asset.priceHistory || []
+    return (
+      <div className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4">
       <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-3xl shadow-2xl max-w-3xl w-full relative">
         <button
           onClick={onClose}
@@ -93,6 +93,7 @@ const AssetModal = ({ asset, onClose }) => {
           </div>
           <div className="h-64">
             {history.length > 0 ? (
+              // Quick sparkline using the mock price history
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart data={history}>
                   <defs>
@@ -145,6 +146,7 @@ const Assets = () => {
     setLoading(true)
     setError(null)
     try {
+      // Pull both universes then tag them with a type for filtering
       const [stocksRes, cryptoRes] = await Promise.all([getStocks(), getCrypto()])
       const stocks = (stocksRes?.data?.data || stocksRes?.data || []).map((s) => ({
         ...s,
@@ -168,6 +170,7 @@ const Assets = () => {
 
   const filteredAssets = useMemo(() => {
     let list = [...assets]
+    // Apply type filter and text search
     if (filter !== 'all') {
       list = list.filter((a) => a.assetType === filter)
     }
@@ -179,6 +182,7 @@ const Assets = () => {
           a.name?.toLowerCase().includes(q)
       )
     }
+    // Then order the resulting set
     const sorter = {
       'change-desc': (a, b) => (b.changePercent || 0) - (a.changePercent || 0),
       'price-desc': (a, b) => (b.currentPrice || 0) - (a.currentPrice || 0),
@@ -210,6 +214,7 @@ const Assets = () => {
             return (
               <button
                 key={option}
+                // Simple pill filters for type
                 onClick={() => setFilter(option)}
                 className={`px-4 py-2 rounded-xl text-sm font-semibold border transition-colors ${
                   isActive
@@ -305,6 +310,7 @@ const Assets = () => {
                 className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-2xl p-4 shadow-sm"
                 onClick={() => setSelectedAsset(asset)}
               >
+                {/* Compact card view for mobile */}
                 <div className="flex items-start justify-between gap-3">
                   <div>
                     <p className="text-lg font-semibold text-gray-900 dark:text-gray-100">{asset.symbol}</p>

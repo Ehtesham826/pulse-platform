@@ -25,6 +25,7 @@ const Alerts = () => {
     setLoading(true)
     setError(null)
     try {
+      // Severity filter is passed straight through to the API
       const params = severity !== 'all' ? { severity } : {}
       const res = await getAlerts(params)
       setAlerts(res?.data?.data || res?.data || [])
@@ -40,6 +41,7 @@ const Alerts = () => {
   }, [severity])
 
   const grouped = useMemo(() => {
+    // Bucket alerts by severity for grouped rendering
     return alerts.reduce((acc, alert) => {
       const level = alert.severity || 'unknown'
       acc[level] = acc[level] || []
@@ -63,6 +65,7 @@ const Alerts = () => {
               <button
                 key={level}
                 onClick={() => setSeverity(level)}
+                // Pills drive the severity filter on the API
                 className={`px-3 py-1.5 rounded-full text-sm font-semibold border transition-colors ${
                   active
                     ? 'bg-pulse-primary text-white border-pulse-primary'

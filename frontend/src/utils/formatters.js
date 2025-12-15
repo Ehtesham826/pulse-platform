@@ -1,5 +1,7 @@
+// Lightweight number formatting helpers reused across pages
 export const formatCurrency = (value) => {
   if (value === null || value === undefined || Number.isNaN(value)) return '—'
+  // Keep large values tight while showing cents on smaller ones
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
@@ -7,6 +9,7 @@ export const formatCurrency = (value) => {
   }).format(value)
 }
 
+// Render percents with a leading plus when applicable
 export const formatPercent = (value, { showPlus = true } = {}) => {
   if (value === null || value === undefined || Number.isNaN(value)) return '—'
   const formatted = value.toFixed(2)
@@ -14,6 +17,7 @@ export const formatPercent = (value, { showPlus = true } = {}) => {
   return `${prefix}${formatted}%`
 }
 
+// Shorten large numbers (volume/market cap)
 export const formatCompactNumber = (value) => {
   if (value === null || value === undefined || Number.isNaN(value)) return '—'
   return new Intl.NumberFormat('en', {
@@ -22,6 +26,7 @@ export const formatCompactNumber = (value) => {
   }).format(value)
 }
 
+// Friendly timestamp for cards/feed items
 export const formatTimestamp = (timestamp) => {
   if (!timestamp) return '—'
   const date = new Date(timestamp)
